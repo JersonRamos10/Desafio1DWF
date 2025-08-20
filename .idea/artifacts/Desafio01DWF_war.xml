@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Desafio01DWF:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Desafio01DWF</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Desafio01DWF-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Desafio01DWF:war exploded" />
+    </root>
+  </artifact>
+</component>
