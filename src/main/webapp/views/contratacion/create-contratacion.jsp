@@ -12,7 +12,7 @@
 <%@ include file="../navbar.jsp" %>
 
 <div class="container mt-5">
-  <h2 class="mb-4">${not empty contratacion ? 'Editar' : 'Agregar'} Contratación</h2>
+  <h2 class="mb-4">${not empty contratacion ? 'Editar' : 'Agregar'} Contratacion</h2>
 
   <c:if test="${not empty error}">
     <div class="alert alert-danger" role="alert">
@@ -57,7 +57,7 @@
     <div class="form-group">
       <label for="idCargo">Cargo *</label>
       <select id="idCargo" name="idCargo" class="form-control" required>
-        <option value="">-- Seleccione un Puesto --</option>
+        <option value="">-- Seleccione un Cargo --</option>
         <c:forEach var="puesto" items="${puestos}">
           <option value="${puesto.idCargo}" ${not empty contratacion && contratacion.idCargo == puesto.idCargo ? 'selected' : ''}>
               ${puesto.cargo}

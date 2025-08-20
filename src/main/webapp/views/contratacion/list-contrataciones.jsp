@@ -49,7 +49,7 @@
             <td><c:out value="${contratacion.idContratacion}"/></td>
             <td><c:out value="${empleadosNombres[loop.index]}"/></td>
             <td><c:out value="${departamentosNombres[loop.index]}"/></td>
-            <td><c:out value="${cargosNombres[loop.index]}"/></td>
+            <td><c:out value="${puestosNombres[loop.index]}"/></td>
             <td><c:out value="${tiposContratacionNombres[loop.index]}"/></td>
             <td><c:out value="${contratacion.fechaContratacion}"/></td>
             <td><c:out value="${contratacion.salario}"/></td>
@@ -65,7 +65,7 @@
             </td>
             <td class="d-flex justify-content-center">
               <a href="${pageContext.request.contextPath}/contrataciones?action=edit&id=${contratacion.idContratacion}" class="btn btn-success mr-2">Editar</a>
-              <a href="${pageContext.request.contextPath}/contrataciones?action=delete&id=${contratacion.idContratacion}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta contratación?');">Borrar</a>
+              <a href="${pageContext.request.contextPath}/contrataciones?action=delete&id=${contratacion.idContratacion}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta contratacion?');">Borrar</a>
             </td>
           </tr>
         </c:forEach>

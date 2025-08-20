@@ -13,11 +13,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Lista de Tipos de Contratación</title>
+  <title>Lista de Tipos de Contratacion</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<!--incluye el navbar para usarlo en esta jsp-->
+
+
 <%@ include file="../navbar.jsp" %>
 
 <div class="container mt-5">
@@ -52,7 +53,7 @@
     </c:when>
     <c:otherwise>
       <div class="alert alert-info" role="alert">
-        No hay tipos de contratación disponibles.
+        No hay tipos de contratacion disponibles.
       </div>
     </c:otherwise>
   </c:choose>

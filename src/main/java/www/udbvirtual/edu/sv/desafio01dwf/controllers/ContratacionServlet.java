@@ -143,9 +143,8 @@ public class ContratacionServlet extends HttpServlet {
             response.sendRedirect("contrataciones?action=list");
 
         } catch (IllegalArgumentException e) {
-            // Si nuestra validación falla, enviamos el mensaje de error de vuelta al formulario.
+            // Si la validacion falla, enviamos el mensaje de error de vuelta al formulario.
             request.setAttribute("error", e.getMessage());
-            // Volvemos a cargar los datos para que los menús desplegables no queden vacíos.
             showCreateForm(request, response);
         }
     }
@@ -192,17 +191,20 @@ public class ContratacionServlet extends HttpServlet {
         response.sendRedirect("contrataciones?action=list");
     }
 
+    // Elimina una contratacion
     private void deleteContratacion(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         contratacionDao.deleteContratacion(id);
         response.sendRedirect("contrataciones?action=list");
     }
 
+    // Redirige las peticiones GET al metodo central processRequest.
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         processRequest(request, response);
     }
 
+    // Redirige las peticiones POST al metodo central processRequest.
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         processRequest(request, response);

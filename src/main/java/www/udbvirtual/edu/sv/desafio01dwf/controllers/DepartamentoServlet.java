@@ -117,6 +117,8 @@ public class DepartamentoServlet extends HttpServlet {
         departamentoDao.deleteDepartamento(id);
         response.sendRedirect("departamento?action=list");
     }
+
+
     // Redirige las peticiones GET al metodo central processRequest.
 
     @Override

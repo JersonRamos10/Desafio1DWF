@@ -25,7 +25,7 @@
         </c:if>
 
         <div class="form-group">
-            <label for="tipoContratacion">Nombre del Tipo de Contratación</label>
+            <label for="tipoContratacion">Nombre del Tipo de Contratacion</label>
             <input type="text" class="form-control" id="tipoContratacion" name="tipoContratacion" value="${tipoContratacion.tipoContratacion}" required maxlength="100">
         </div>
 
