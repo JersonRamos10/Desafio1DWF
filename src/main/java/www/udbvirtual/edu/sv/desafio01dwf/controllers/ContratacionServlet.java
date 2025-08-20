@@ -24,7 +24,10 @@ public class ContratacionServlet extends HttpServlet {
     private TipoContratacionDao tipoContratacionDao;
 
     @Override
+    // El metodo init se ejecuta una vez cuando el servlet se carga por primera vez
     public void init() {
+        // Se crean las instancias de los DAO para poder usar sus metodos
+
         contratacionDao = new ContratacionDao();
         empleadoDao = new EmpleadoDao();
         departamentoDao = new DepartamentoDao();
@@ -32,14 +35,17 @@ public class ContratacionServlet extends HttpServlet {
         tipoContratacionDao = new TipoContratacionDao();
     }
 
+    // Metodo principal que procesa todas las peticiones GET y POST
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("action");
+        response.setContentType("text/html;charset=UTF-8");  // Se establece el tipo de contenido de la respuesta
+        String action = request.getParameter("action"); // Se obtiene el parametro 'action' para determinar que operacion realizar
         if (action == null) {
+            // Si no se especifica ninguna accion, la accion por defecto sera "list"
             action = "list";
         }
 
         try {
+            // Un switch para ejecutar el metodo correspondiente a la accion solicitada
             switch (action) {
                 case "list":
                     listContrataciones(request, response);
@@ -60,22 +66,26 @@ public class ContratacionServlet extends HttpServlet {
                     deleteContratacion(request, response);
                     break;
                 default:
-                    listContrataciones(request, response);
+                    listContrataciones(request, response); // Si la accion no es reconocida, se muestra la lista por defecto
                     break;
             }
         } catch (SQLException | ServletException ex) {
             ex.printStackTrace();
+            // Aca se maneja cualquier excepcion SQL o de Servlet que pueda ocurrir
             throw new IOException(ex);
         }
     }
 
+    // Obtiene y muestra la lista de todas las contrataciones
     private void listContrataciones(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        List<Contratacion> contrataciones = contratacionDao.getAllContrataciones();
+        List<Contratacion> contrataciones = contratacionDao.getAllContrataciones(); // Se obtiene la lista completa de contrataciones desde el DAO
+        // Se crean listas para almacenar los nombres de las entidades relacionadas
         List<String> departamentosNombres = new ArrayList<>();
         List<String> empleadosNombres = new ArrayList<>();
         List<String> puestosNombres = new ArrayList<>();
         List<String> tiposContratacionNombres = new ArrayList<>();
 
+        // Se itera sobre cada contratacion para obtener los nombres asociados a los IDs
         for (Contratacion contratacion : contrataciones) {
             Departamento depto = departamentoDao.getDepartamentoById(contratacion.getIdDepartamento());
             departamentosNombres.add(depto != null ? depto.getNombreDepartamento() : "N/A");
@@ -90,15 +100,19 @@ public class ContratacionServlet extends HttpServlet {
             tiposContratacionNombres.add(tipo != null ? tipo.getTipoContratacion() : "N/A");
         }
 
+        // Se agregan las listas al objeto request para ser usadas en el JSP
+
         request.setAttribute("contrataciones", contrataciones);
         request.setAttribute("departamentosNombres", departamentosNombres);
         request.setAttribute("empleadosNombres", empleadosNombres);
         request.setAttribute("puestosNombres", puestosNombres);
         request.setAttribute("tiposContratacionNombres", tiposContratacionNombres);
 
+        // Se reenvia la peticion al JSP para que muestre los datos
         request.getRequestDispatcher("/views/contratacion/list-contrataciones.jsp").forward(request, response);
     }
 
+    //con este metodo se  procesa los datos del formulario para crear una nueva contratacion
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Empleado> empleados = empleadoDao.getAllEmpleados();
         List<Departamento> departamentos = departamentoDao.getAllDepartamentos();
@@ -116,7 +130,7 @@ public class ContratacionServlet extends HttpServlet {
     private void createContratacion(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         try {
             String idEmpleadoStr = request.getParameter("idEmpleado");
-
+            // Se valida que se haya seleccionado un empleado valido
             if (idEmpleadoStr == null || idEmpleadoStr.trim().isEmpty() || idEmpleadoStr.equals("0")) {
                 // Si el ID es nulo, vacio o 0, lanzamos un error .
                 throw new IllegalArgumentException("Error: Debe seleccionar un empleado valido. Se recibió un ID invalido.");
@@ -149,25 +163,31 @@ public class ContratacionServlet extends HttpServlet {
         }
     }
 
+    // Muestra el formulario para editar una contratacion existente
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Contratacion contratacion = contratacionDao.getContratacionById(id);
 
+        // Se obtienen las listas necesarias para los menus desplegables
         List<Empleado> empleados = empleadoDao.getAllEmpleados();
         List<Departamento> departamentos = departamentoDao.getAllDepartamentos();
         List<Puesto> puestos = puestoDao.getAllPuestos();
         List<TipoContratacion> tiposContratacion = tipoContratacionDao.getAllTiposContratacion();
 
+        // Se agregan los datos al request para poblar el formulario
         request.setAttribute("contratacion", contratacion);
         request.setAttribute("empleados", empleados);
         request.setAttribute("departamentos", departamentos);
         request.setAttribute("puestos", puestos);
         request.setAttribute("tiposContratacion", tiposContratacion);
 
+        // Se reenvia la peticion al mismo JSP de creacion, que tambien sirve para editar
         request.getRequestDispatcher("/views/contratacion/create-contratacion.jsp").forward(request, response);
     }
 
+    // Procesa los datos del formulario para actualizar una contratacion
     private void updateContratacion(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        // Se obtienen todos los parametros del formulario
         int id = Integer.parseInt(request.getParameter("id"));
         int idDepartamento = Integer.parseInt(request.getParameter("idDepartamento"));
         int idEmpleado = Integer.parseInt(request.getParameter("idEmpleado"));
@@ -176,6 +196,7 @@ public class ContratacionServlet extends HttpServlet {
         Date fechaContratacion = Date.valueOf(request.getParameter("fechaContratacion"));
         double salario = Double.parseDouble(request.getParameter("salario"));
         boolean estado = Boolean.parseBoolean(request.getParameter("estado"));
+
 
         Contratacion contratacion = new Contratacion();
         contratacion.setIdContratacion(id);
@@ -188,7 +209,7 @@ public class ContratacionServlet extends HttpServlet {
         contratacion.setEstado(estado);
 
         contratacionDao.updateContratacion(contratacion);
-        response.sendRedirect("contrataciones?action=list");
+        response.sendRedirect("contrataciones?action=list"); // Se redirige al usuario a la lista de contrataciones
     }
 
     // Elimina una contratacion

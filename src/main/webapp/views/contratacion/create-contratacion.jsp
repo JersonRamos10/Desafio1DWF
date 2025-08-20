@@ -79,7 +79,7 @@
     </div>
 
     <div class="form-group">
-      <label for="fechaContratacion">Fecha de Contratación *</label>
+      <label for="fechaContratacion">Fecha de Contratacion *</label>
       <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion" value="${contratacion.fechaContratacion}" required>
     </div>
 
